@@ -3,11 +3,15 @@ package com.bignerdranch.android.financeaccounting.controller.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,11 +19,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bignerdranch.android.financeaccounting.Constants;
 import com.bignerdranch.android.financeaccounting.R;
-import com.bignerdranch.android.financeaccounting.Utils;
+import com.bignerdranch.android.financeaccounting.Utils.DateUtils;
+import com.bignerdranch.android.financeaccounting.Utils.FragmentUtils;
+import com.bignerdranch.android.financeaccounting.Utils.PreferencesHelper;
 import com.bignerdranch.android.financeaccounting.model.Category;
 import com.bignerdranch.android.financeaccounting.model.Item;
 
@@ -36,7 +41,7 @@ import io.realm.RealmResults;
 import static com.bignerdranch.android.financeaccounting.R.id.catTitle;
 import static com.bignerdranch.android.financeaccounting.R.id.catTotalAmount;
 import static com.bignerdranch.android.financeaccounting.R.id.fragment_container;
-import static com.bignerdranch.android.financeaccounting.Utils.getDateForPeriod;
+import static com.bignerdranch.android.financeaccounting.Utils.DateUtils.getDateForPeriod;
 
 public class AllCategoryListFragment extends Fragment { // SHOWING all categories fragment
 
@@ -48,8 +53,13 @@ public class AllCategoryListFragment extends Fragment { // SHOWING all categorie
     private Unbinder unbinder;
     private Realm mRealm;
     private RealmResults<Category> categoriesList;
-    private String[] data = {Constants.YEAR, Constants.MONTH, Constants.WEEK, Constants.DAY, Constants.RANGE};
-    private String selectedRange = Constants.MONTH;
+    private String[] data = {Constants.YEAR, Constants.MONTH, Constants.WEEK, Constants.DAY};
+    private String selectedRange;// Constants.YEAR;  //update from sharedPreferences ???
+    private int shift = 0;
+    private long[] timeRange = new long[2];
+    private Toolbar mToolbar;
+
+
     @BindView(R.id.totalAmount)
     TextView totalAmount;
 
@@ -62,18 +72,16 @@ public class AllCategoryListFragment extends Fragment { // SHOWING all categorie
     @BindView(R.id.tvTimeRange)
     TextView tvTimeRange;
 
-    private int shift = 0;
-
     @OnClick({R.id.actionRightBtn})
-    void onClickRightBtn(View view) {
+    void onClickRightBtn() {
         shift += 1;
         setUI(getSelectedCategories(shift, selectedRange));
     }
 
     @OnClick({R.id.actionLeftBtn})
-    void onClickLeftBtn(View view) {
+    void onClickLeftBtn() {
         shift -= 1;
-        setUI(getSelectedCategories(shift,  selectedRange));
+        setUI(getSelectedCategories(shift, selectedRange));
     }
 
     private void setUI(List<Category> selectedCategories) {
@@ -84,26 +92,20 @@ public class AllCategoryListFragment extends Fragment { // SHOWING all categorie
     }
 
     private List<Category> getSelectedCategories(int shift, String period) {
-        long[] timeRange = new long[2];
-
         switch (period) {
             case Constants.YEAR:
-                timeRange = Utils.getYear(shift);
+                timeRange = DateUtils.getYear(shift);
                 break;
             case Constants.MONTH:
-                timeRange = Utils.getMonth(shift);
+                timeRange = DateUtils.getMonth(shift);
                 break;
             case Constants.WEEK:
-                timeRange = Utils.getWeek(shift);
+                timeRange = DateUtils.getWeek(shift);
                 break;
             case Constants.DAY:
-                timeRange = Utils.getDay(shift);
-                break;
-            case Constants.RANGE:
-//                timeRange = Utils.getRange(shift);
+                timeRange = DateUtils.getDay(shift);
                 break;
         }
-
         List<Category> selectedCatList = new ArrayList<>();
         categoriesList = mRealm.where(Category.class).equalTo("mType", getArguments().getString(TYPE_OF_CATEGORY)).findAll();
         List<Category> copiedCatList = mRealm.copyFromRealm(categoriesList);
@@ -146,6 +148,8 @@ public class AllCategoryListFragment extends Fragment { // SHOWING all categorie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
+        setHasOptionsMenu(true);
+        PreferencesHelper.init(getContext());
     }
 
     @Override
@@ -154,44 +158,61 @@ public class AllCategoryListFragment extends Fragment { // SHOWING all categorie
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
         recyclerView = (RecyclerView) view.findViewById(R.id.rwCategoriesList);
-        setUI(getSelectedCategories(shift, selectedRange));
-        //set spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, data);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
-        spinner.setAdapter(adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                Toast.makeText(getActivity(), "Position = " + position, Toast.LENGTH_SHORT).show();
-                selectedRange = data[position];
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                selectedRange = data[1];
-            }
-        });
+        setToolbar(view);
         return view;
     }
 
-
-    private void addFragment(Fragment fragment, int fragContainer, boolean addToBackStack, String tag) {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.add(fragContainer, fragment, tag)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        if (addToBackStack) {
-            ft.addToBackStack(null);
-        }
-        ft.commit();
+    private void setToolbar(View view) {
+        mToolbar = (Toolbar) view.findViewById(R.id.spinnerToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        mToolbar.setTitle("Расходы"); //review, add to string resources
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_spinner, menu);
+
+        MenuItem item = menu.findItem(R.id.spinner_item);
+        final Spinner spinner = (Spinner) MenuItemCompat.getActionView(item);
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, data);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setSelection(adapter.getPosition(PreferencesHelper.getRange(PreferencesHelper.RANGE)));
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                PreferencesHelper.addProperty(PreferencesHelper.RANGE, data[position]);
+                selectedRange = PreferencesHelper.getRange(PreferencesHelper.RANGE);
+                setUI(getSelectedCategories(0, selectedRange));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                FragmentUtils.closeFragment(getFragmentManager());
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        shift = 0;//???
+        shift = 0;//save to sharedPreferences ???
+        selectedRange = Constants.MONTH; //save to sharedPreferences ???
         unbinder.unbind();
         mRealm.close();
     }
@@ -246,7 +267,7 @@ public class AllCategoryListFragment extends Fragment { // SHOWING all categorie
 
         @Override
         public void onClick(View v) {
-            addFragment(ItemListFragment.newInstance(mCategory.getTitle()), fragment_container, true, "ItemListFragment");
+            FragmentUtils.addFragment(getFragmentManager(), ItemListFragment.newInstance(mCategory.getTitle(), timeRange), fragment_container, "EditItemFragment");
         }
     }
 }

@@ -6,10 +6,15 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,6 +22,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bignerdranch.android.financeaccounting.R;
+import com.bignerdranch.android.financeaccounting.Utils.FragmentUtils;
 import com.bignerdranch.android.financeaccounting.adapters.CategoryAdapter;
 import com.bignerdranch.android.financeaccounting.model.Category;
 
@@ -33,6 +39,7 @@ public class CategorySelectionFragment extends Fragment {// ADDING new categorie
     private static final String TYPE_OF_CATEGORY = "type_of_category";
     private String categoryType;
     private setCategoryTitle mListener;
+    private Toolbar mToolbar;
 
     @BindView(R.id.etAddCat)
     EditText etAddNewCategory;
@@ -78,6 +85,7 @@ public class CategorySelectionFragment extends Fragment {// ADDING new categorie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
+        setHasOptionsMenu(true);
         categoryType = getArguments().getString(TYPE_OF_CATEGORY);
         catListRealm = mRealm.where(Category.class).equalTo("mType", categoryType).findAll();
     }
@@ -87,8 +95,33 @@ public class CategorySelectionFragment extends Fragment {// ADDING new categorie
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_categories_list, container, false);
         unbinder = ButterKnife.bind(this, view);
+        setToolbar(view);
         setUI(view);
         return view;
+    }
+
+    private void setToolbar(View view) {
+        mToolbar = (Toolbar) view.findViewById(R.id.simpleToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        mToolbar.setTitle("Категории");
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                FragmentUtils.closeFragment(getFragmentManager());
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setUI(View view) {
@@ -135,7 +168,7 @@ public class CategorySelectionFragment extends Fragment {// ADDING new categorie
             public void onItemClick(Category category) {
                 Log.i(TAG, "on item click");
                 mListener.setCatTitle(category.getTitle());
-                closeFragment();
+                FragmentUtils.closeFragment(getFragmentManager());
             }
         });
         recyclerView.setAdapter(mCategoryAdapter);
@@ -172,7 +205,7 @@ public class CategorySelectionFragment extends Fragment {// ADDING new categorie
     }
 
     @OnClick({R.id.addNewCatBtn})
-    void addNewCat(View view) {
+    void addNewCat() {
         final Category newCategory = new Category();
         newCategory.setTitle(etAddNewCategory.getText().toString());
         newCategory.setType(categoryType);
@@ -185,11 +218,6 @@ public class CategorySelectionFragment extends Fragment {// ADDING new categorie
             }
         });
         mCategoryAdapter.notifyDataSetChanged();//need to review
-    }
-
-    //close current fragment
-    private void closeFragment() {
-        getFragmentManager().popBackStack();
     }
 
     @Override

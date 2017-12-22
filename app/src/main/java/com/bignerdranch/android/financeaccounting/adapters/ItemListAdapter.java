@@ -8,7 +8,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bignerdranch.android.financeaccounting.R;
-import com.bignerdranch.android.financeaccounting.Utils;
+import com.bignerdranch.android.financeaccounting.Utils.DateUtils;
 import com.bignerdranch.android.financeaccounting.model.Item;
 
 import java.util.List;
@@ -67,7 +67,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
 
         public void bindItem(Item item) {
             mItem = item;
-            mItemDate.setText(Utils.getFullDateString(mItem.getDate()));
+            mItemDate.setText(DateUtils.getFullDateString(mItem.getDate()));
             mItemAmount.setText(String.valueOf(mItem.getAmount()));
             mItemComment.setText(mItem.getComment());
         }

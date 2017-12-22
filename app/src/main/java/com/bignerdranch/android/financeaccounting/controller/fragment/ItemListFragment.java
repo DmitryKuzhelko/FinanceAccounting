@@ -2,17 +2,20 @@ package com.bignerdranch.android.financeaccounting.controller.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bignerdranch.android.financeaccounting.R;
+import com.bignerdranch.android.financeaccounting.Utils.FragmentUtils;
 import com.bignerdranch.android.financeaccounting.adapters.ItemListAdapter;
 import com.bignerdranch.android.financeaccounting.controller.EditItemFragment;
 import com.bignerdranch.android.financeaccounting.model.Item;
@@ -27,17 +30,20 @@ import static com.bignerdranch.android.financeaccounting.R.id.fragment_container
 public class ItemListFragment extends Fragment {
 
     private static final String TAG = ItemListFragment.class.getName();
-    private static final String TITLE_OF_CATEGORY = "title_of_category";
+    private static final String TITLE_OF_CATEGORY = "title of category";
+    private static final String TIME_RANGE = "time range";
 
     private RecyclerView recyclerView;
     private ItemListAdapter mItemListAdapter;
     private Unbinder unbinder;
     private Realm mRealm;
     private RealmResults<Item> itemsListRealm;
+    private Toolbar mToolbar;
 
-    public static ItemListFragment newInstance(String title) {
+    public static ItemListFragment newInstance(String title, long[] timeRange) {
         Bundle args = new Bundle();
         args.putString(TITLE_OF_CATEGORY, title);
+        args.putLongArray(TIME_RANGE, timeRange);
         ItemListFragment fragment = new ItemListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -47,8 +53,14 @@ public class ItemListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
+        setHasOptionsMenu(true);
+
+        String titleOfCategory = getArguments().getString(TITLE_OF_CATEGORY);
+        long[] timeRange = getArguments().getLongArray(TIME_RANGE);
+
         itemsListRealm = mRealm.where(Item.class)
-                .equalTo("mCategory.mTitle", getArguments().getString(TITLE_OF_CATEGORY))
+                .equalTo("mCategory.mTitle", titleOfCategory)
+                .between("mDate", timeRange[0], timeRange[1])
                 .findAll();
         Log.i(TAG, "OnCreate");
     }
@@ -58,9 +70,25 @@ public class ItemListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
         unbinder = ButterKnife.bind(this, view);
+
+        setToolbar(view);
         setUI(view);
         Log.i(TAG, "onCreateView");
         return view;
+    }
+
+    private void setToolbar(View view) {
+        mToolbar = (Toolbar) view.findViewById(R.id.simpleToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        mToolbar.setTitle(getArguments().getString(TITLE_OF_CATEGORY));
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
     }
 
     @Override
@@ -76,7 +104,7 @@ public class ItemListFragment extends Fragment {
         mItemListAdapter = new ItemListAdapter(itemsListRealm, new ItemListAdapter.MyAdapterListener() {
             @Override
             public void onEditItemBtnClick(Item item) {
-                addFragment(EditItemFragment.newInstanceForUpdate(item.getId()), fragment_container, true, "EditItemFragment");
+                FragmentUtils.addFragment(getFragmentManager(), EditItemFragment.newInstanceForUpdate(item.getId()), fragment_container, "EditItemFragment");
             }
 
             @Override
@@ -95,17 +123,6 @@ public class ItemListFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(mItemListAdapter);
-    }
-
-    private void addFragment(Fragment fragment, int fragContainer, boolean addToBackStack, String tag) {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.add(fragContainer, fragment, tag)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        if (addToBackStack) {
-            ft.addToBackStack(null);
-        }
-        ft.commit();
     }
 
     public void refreshRecyclerView() {

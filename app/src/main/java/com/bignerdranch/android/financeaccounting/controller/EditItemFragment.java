@@ -7,22 +7,26 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bignerdranch.android.financeaccounting.R;
-import com.bignerdranch.android.financeaccounting.Utils;
+import com.bignerdranch.android.financeaccounting.Utils.DateUtils;
+import com.bignerdranch.android.financeaccounting.Utils.FragmentUtils;
+import com.bignerdranch.android.financeaccounting.Utils.PreferencesHelper;
 import com.bignerdranch.android.financeaccounting.controller.fragment.CategorySelectionFragment;
 import com.bignerdranch.android.financeaccounting.controller.fragment.DatePickerFragment;
 import com.bignerdranch.android.financeaccounting.controller.fragment.TimePickerFragment;
@@ -48,6 +52,27 @@ public class EditItemFragment extends Fragment {
     private Realm mRealm;
     private Unbinder unbinder;
     private String itemID;
+    Toolbar mToolbar;
+
+//    PreferencesHelper preferenceHelper;
+//
+//    private SharedPreferences sPref;
+//    private final String SAVED_COMMENT = "saved_comment"; // need add to constants
+
+//    private void saveComment() {
+//        sPref = getActivity().getSharedPreferences("Comment", MODE_PRIVATE);
+//        SharedPreferences.Editor ed = sPref.edit();
+//        ed.putString(SAVED_COMMENT, etComment.getText().toString());
+//        ed.apply();
+//        Toast.makeText(getActivity(), "Comment saved", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    private void loadComment() {
+//        sPref = getActivity().getSharedPreferences("Comment", MODE_PRIVATE);
+//        String savedText = sPref.getString(SAVED_COMMENT, "default comment");
+//        etComment.setText(savedText);
+//        Toast.makeText(getActivity(), "Text loaded", Toast.LENGTH_SHORT).show();
+//    }
 
     private refreshItemsRVListener mListener;
 
@@ -65,9 +90,6 @@ public class EditItemFragment extends Fragment {
 
     @BindView(R.id.etComment)
     EditText etComment;
-
-    @BindView(R.id.addItemBtn)
-    ImageButton addItembtn;
 
     @BindView(R.id.addCatBtn)
     Button addCatBtn;
@@ -113,6 +135,8 @@ public class EditItemFragment extends Fragment {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
+        setHasOptionsMenu(true);
+        PreferencesHelper.init(getContext());
         Log.i(TAG, "itemID " + itemID);
         Log.i(TAG, "ON_CREATE");
     }
@@ -121,29 +145,58 @@ public class EditItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_adding_item, container, false);
         unbinder = ButterKnife.bind(this, view);
-        itemID = getArguments().getString(ITEM_ID);
-        setUI(itemID);
+        setToolbar(view);
+        setUI();
         Log.i(TAG, "ON_CREATE_VIEW");
         return view;
     }
 
+    private void setToolbar(View view) {
+        mToolbar = (Toolbar) view.findViewById(R.id.editToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        mToolbar.setTitle("Расходы");
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_edit, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.saveItem:
+                createOrUpdateItem();
+                Log.d(TAG, "Save item clicked");
+                return true;
+            case android.R.id.home:
+                FragmentUtils.closeFragment(getFragmentManager());
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     //fills in all fields of fragment when element from Realm is edited
     //set current date and time for item first created
-    private void setUI(String itemId) {
+    private void setUI() {
+        itemID = getArguments().getString(ITEM_ID);
         if (itemID == null) {
-            Utils.setCurrentTimeAndDate(calendar);
-            tvCategory.setText("Выберите категорию");
-            itemDate.setText(Utils.getDate(calendar.getTimeInMillis()));
-            itemTime.setText(Utils.getTime(calendar.getTimeInMillis()));
+            DateUtils.setCurrentTimeAndDate(calendar);
+            tvCategory.setText(PreferencesHelper.getCategory(PreferencesHelper.CATEGORY));
+            itemDate.setText(DateUtils.getDate(calendar.getTimeInMillis()));
+            itemTime.setText(DateUtils.getTime(calendar.getTimeInMillis()));
         } else {
             Item item = mRealm.where(Item.class)
-                    .equalTo("mId", itemId)
+                    .equalTo("mId", itemID)
                     .findFirst();
             etAmount.setText(String.valueOf(item.getAmount()));
             tvCategory.setText(item.getCategory().getTitle());
             etComment.setText(item.getComment());
-            itemDate.setText(Utils.getDate(item.getDate()));
-            itemTime.setText(Utils.getTime(item.getDate()));
+            itemDate.setText(DateUtils.getDate(item.getDate()));
+            itemTime.setText(DateUtils.getTime(item.getDate()));
         }
     }
 
@@ -160,26 +213,23 @@ public class EditItemFragment extends Fragment {
     }
 
     //create or update item. Depends on situation
-    @OnClick({R.id.addItemBtn})
-    void createOrUpdateItem(View view) {
+    private void createOrUpdateItem() {
         if (itemID == null) {
             createItem();
         } else {
             updateItem(itemID);
         }
-        closeFragment();
+        FragmentUtils.closeFragment(getFragmentManager());
     }
 
     //create a new item in Realm
-    void createItem() {
+    private void createItem() {
         final Item newItem = new Item();
         setAllFields(newItem);
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
-//                newItem.setCategory(getCategory());//review "The Realm is already in a write transaction"
                 mRealm.copyToRealmOrUpdate(newItem);
-//                mRealm.copyToRealm(newItem);
                 Log.i(TAG, "New item created: " + newItem.toString());
                 Toast.makeText(getContext(), "Сохранено", Toast.LENGTH_SHORT).show();
             }
@@ -187,7 +237,7 @@ public class EditItemFragment extends Fragment {
     }
 
     //updates item from Realm
-    void updateItem(String itemID) {
+    private void updateItem(String itemID) {
         final Item item = mRealm.where(Item.class)
                 .equalTo("mId", itemID)
                 .findFirst();
@@ -216,7 +266,7 @@ public class EditItemFragment extends Fragment {
     private long getDate() {
         String date = itemDate.getText().toString();
         String time = itemTime.getText().toString();
-        return Utils.getFullDateLong(date, time);
+        return DateUtils.getFullDateLong(date, time);
     }
 
     //return value from etAmount
@@ -249,7 +299,7 @@ public class EditItemFragment extends Fragment {
 
     @OnClick({R.id.addCatBtn})
     void selectCategory(View view) {
-        addFragment(CategorySelectionFragment.newInstance(getArguments().getString(TYPE_OF_CATEGORY)), fragment_container, true);
+        FragmentUtils.addFragment(getFragmentManager(), CategorySelectionFragment.newInstance(getArguments().getString(TYPE_OF_CATEGORY)), fragment_container, "CategorySelectionFragment");
     }
 
     @OnClick({R.id.itemDate})
@@ -260,8 +310,9 @@ public class EditItemFragment extends Fragment {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                itemDate.setText(Utils.getDate(calendar.getTimeInMillis()));
+                itemDate.setText(DateUtils.getDate(calendar.getTimeInMillis()));
             }
+
             @Override
             public void onCancel(DialogInterface dialog) {
             }
@@ -277,8 +328,9 @@ public class EditItemFragment extends Fragment {
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 calendar.set(Calendar.MINUTE, minute);
                 calendar.set(Calendar.SECOND, 0);
-                itemTime.setText(Utils.getTime(calendar.getTimeInMillis()));
+                itemTime.setText(DateUtils.getTime(calendar.getTimeInMillis()));
             }
+
             @Override
             public void onCancel(DialogInterface dialog) {
             }
@@ -286,26 +338,11 @@ public class EditItemFragment extends Fragment {
         timePickerFragment.show(getActivity().getFragmentManager(), TimePickerFragment.class.getName());
     }
 
-    private void addFragment(Fragment fragment, int fragContainer, boolean addToBackStack) {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.add(fragContainer, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        if (addToBackStack) {
-            ft.addToBackStack(null);
-        }
-        ft.commit();
-    }
-
-    //close current fragment
-    private void closeFragment() {
-        getFragmentManager().popBackStack();
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "onDestroy");
+        PreferencesHelper.addProperty(PreferencesHelper.CATEGORY, tvCategory.getText().toString());
         unbinder.unbind();
         mRealm.close();
     }

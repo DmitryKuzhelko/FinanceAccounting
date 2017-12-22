@@ -3,21 +3,26 @@ package com.bignerdranch.android.financeaccounting.controller;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bignerdranch.android.financeaccounting.R;
-import com.bignerdranch.android.financeaccounting.Utils;
+import com.bignerdranch.android.financeaccounting.Utils.DateUtils;
+import com.bignerdranch.android.financeaccounting.Utils.FragmentUtils;
 import com.bignerdranch.android.financeaccounting.controller.fragment.AllCategoryListFragment;
 import com.bignerdranch.android.financeaccounting.controller.fragment.CategorySelectionFragment;
 import com.bignerdranch.android.financeaccounting.controller.fragment.ItemListFragment;
-import com.bignerdranch.android.financeaccounting.model.Category;
 import com.bignerdranch.android.financeaccounting.model.Item;
 
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -31,11 +36,13 @@ import static com.bignerdranch.android.financeaccounting.R.id.allCostsBtn;
 import static com.bignerdranch.android.financeaccounting.R.id.allIncomesBtn;
 import static com.bignerdranch.android.financeaccounting.R.id.fragment_container;
 
-public class MainActivity extends AddFragmentActivity implements EditItemFragment.refreshItemsRVListener, CategorySelectionFragment.setCategoryTitle {
+public class MainActivity extends AppCompatActivity implements EditItemFragment.refreshItemsRVListener, CategorySelectionFragment.setCategoryTitle {
 
     private static final String TAG = MainActivity.class.getName();
     private static final String EXTRA = "MainActivity";
-    Realm mRealm;
+    private Toolbar mToolbar;
+    private Realm mRealm;
+    private FragmentManager fragmentManager;
 
     @BindView(R.id.dayCostsAmount)
     TextView dayCosts;
@@ -56,26 +63,26 @@ public class MainActivity extends AddFragmentActivity implements EditItemFragmen
     void addFragmentBtn(View view) {
         switch (view.getId()) {
             case addCostsBtn:
-                addFragment(EditItemFragment.newInstance(COSTS_CATEGORY_TYPE), fragment_container, true, "EditItemFragment");
+                FragmentUtils.addFragment(fragmentManager, EditItemFragment.newInstance(COSTS_CATEGORY_TYPE), fragment_container, "EditItemFragment");
                 break;
             case addIncomesBtn:
-                addFragment(EditItemFragment.newInstance(INCOMES_CATEGORY_TYPE), fragment_container, true, "EditItemFragment");
+                FragmentUtils.addFragment(fragmentManager, EditItemFragment.newInstance(INCOMES_CATEGORY_TYPE), fragment_container, "EditItemFragment");
                 break;
             case BalanceBtn:
-                addFragment(new balanceFragment(), fragment_container, true, "balanceFragment");
+                FragmentUtils.addFragment(fragmentManager, new balanceFragment(), fragment_container, "balanceFragment");
                 break;
             case allCostsBtn:
-                addFragment(AllCategoryListFragment.newInstance(COSTS_CATEGORY_TYPE), fragment_container, true, "AllCategoryListFragment");
+                FragmentUtils.addFragment(fragmentManager, AllCategoryListFragment.newInstance(COSTS_CATEGORY_TYPE), fragment_container, "AllCategoryListFragment");
                 break;
             case allIncomesBtn:
-                addFragment(AllCategoryListFragment.newInstance(INCOMES_CATEGORY_TYPE), fragment_container, true, "AllCategoryListFragment");
+                FragmentUtils.addFragment(fragmentManager, AllCategoryListFragment.newInstance(INCOMES_CATEGORY_TYPE), fragment_container, "AllCategoryListFragment");
                 break;
             default:
                 break;
         }
     }
 
-    private void setCostsFields(long[] dayRange, long[] weekRange, long[] monthRange) {
+    private void fillInCostsFields(long[] dayRange, long[] weekRange, long[] monthRange) {
         double totalDayCosts = 0;
         double totalWeekCosts = 0;
         double totalMonthCosts = 0;
@@ -100,7 +107,7 @@ public class MainActivity extends AddFragmentActivity implements EditItemFragmen
         monthCosts.setText(String.valueOf(totalMonthCosts));
     }
 
-    private void setIncomesFields(long[] monthRange) {
+    private void fillInIncomesFields(long[] monthRange) {
         double totalMonthIncomes = 0;
 
         RealmResults<Item> allIncomesList = mRealm.where(Item.class).equalTo("mCategory.mType", INCOMES_CATEGORY_TYPE).findAll();
@@ -112,7 +119,7 @@ public class MainActivity extends AddFragmentActivity implements EditItemFragmen
         monthIncomes.setText(String.valueOf(totalMonthIncomes));
     }
 
-    private void setCurrentBalanceField(long[] AllTimeRange) {
+    private void fillInCurrentBalanceField(long[] AllTimeRange) {
         double totalCosts = 0;
         double totalIncomes = 0;
 
@@ -128,19 +135,49 @@ public class MainActivity extends AddFragmentActivity implements EditItemFragmen
     }
 
     private void setUI() {
-        setCostsFields(Utils.getDayTimeRange(), Utils.getWeekTimeRange(), Utils.getMonthTimeRange());
-        setIncomesFields(Utils.getMonthTimeRange());
-        setCurrentBalanceField(Utils.getAllTimeRange());
+        fillInCostsFields(DateUtils.getDayTimeRange(), DateUtils.getWeekTimeRange(), DateUtils.getMonthTimeRange());
+        fillInIncomesFields(DateUtils.getMonthTimeRange());
+        fillInCurrentBalanceField(DateUtils.getAllTimeRange());
     }
+
+    private void setToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.simpleToolbar);
+        setSupportActionBar(mToolbar);
+//        mToolbar.hideOverflowMenu();
+    }
+
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//        return false;
+//    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_simple, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        int id = item.getItemId();
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
-        Log.i(TAG, "onStart");
-        Log.i(TAG, " All items size = " + mRealm.where(Item.class).findAll().size() + " " + mRealm.where(Item.class).findAll());//temporarily
-        Log.i(TAG, " All categories size = " + mRealm.where(Category.class).findAll().size() + " " + mRealm.where(Category.class).findAll());//temporarily
+        setToolbar();
         setUI();
+        fragmentManager = getSupportFragmentManager();
     }
 
     public static Intent newIntent(Context packageContext, String catTitle) {
@@ -199,7 +236,7 @@ public class MainActivity extends AddFragmentActivity implements EditItemFragmen
 
     @Override
     public void onBackPressed() {
-        Log.i(TAG, "onBackPressed");
+        Toast.makeText(MainActivity.this, "onBackPressed", Toast.LENGTH_SHORT).show();
         setUI();
         super.onBackPressed();
     }

@@ -11,6 +11,18 @@
         android:layout_height="match_parent"
         tools:context="com.dmitry.financeaccounting.MainActivity">
 
+        <include
+            layout="@layout/simple_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.518"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"/>
+
         <Button
             android:id="@+id/allIncomesBtn"
             android:layout_width="110dp"
@@ -81,7 +93,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.002"
+        app:layout_constraintVertical_bias="0.177"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp">
 
@@ -148,28 +160,35 @@
 
             <TextView
                 android:id="@+id/dayCostsAmount"
-                android:layout_width="59dp"
-                android:layout_height="16dp"
+                android:layout_width="58dp"
+                android:layout_height="26dp"
                 android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:lineSpacingExtra="8sp"
+                android:shadowColor="@color/cardview_dark_background"
                 android:text="1"
+                android:textColor="@android:color/holo_blue_bright"
+                android:textColorHighlight="@color/colorPrimary"
+                android:textColorLink="@android:color/holo_blue_bright"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.732"
+                app:layout_constraintLeft_toRightOf="@+id/todayCosts"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.25"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintLeft_toRightOf="@+id/todayCosts"
-                android:layout_marginLeft="8dp"
-                app:layout_constraintHorizontal_bias="0.732"/>
+                app:layout_constraintVertical_bias="0.25"/>
 
             <TextView
                 android:id="@+id/monthCosts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginLeft="91dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:text="За месяц"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -179,7 +198,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginRight="8dp"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"/>
+                app:layout_constraintHorizontal_bias="0.0"
+                android:layout_marginEnd="8dp"/>
 
             <TextView
                 android:id="@+id/weekCosts"
@@ -201,16 +221,15 @@
 
             <Button
                 android:id="@+id/addCostsBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="45dp"
+                android:layout_height="44dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:background="@android:drawable/ic_input_add"
-                android:text="+"
+                android:background="@drawable/ic_add_costs"
                 android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -259,8 +278,8 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/incomes_card_view"
-            android:layout_width="358dp"
-            android:layout_height="70dp"
+            android:layout_width="359dp"
+            android:layout_height="77dp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
@@ -270,9 +289,11 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.305"
+            app:layout_constraintVertical_bias="0.438"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.555"
+            >
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -285,7 +306,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="BYN"
-                    android:layout_marginRight="59dp"
+                    android:layout_marginRight="8dp"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginTop="8dp"
@@ -304,7 +325,7 @@
                     android:layout_width="59dp"
                     android:layout_height="16dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginRight="62dp"
+                    android:layout_marginRight="8dp"
                     android:layout_marginTop="8dp"
                     android:text="31"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -334,24 +355,22 @@
 
                 <Button
                     android:id="@+id/addIncomesBtn"
-                    android:layout_width="39dp"
-                    android:layout_height="42dp"
+                    android:layout_width="46dp"
+                    android:layout_height="44dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:background="@android:drawable/ic_input_add"
-                    android:text="+"
+                    android:background="@drawable/ic_add_incomes"
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.526"
-                    tools:layout_editor_absoluteX="306dp"/>
+                    tools:layout_editor_absoluteX="305dp"/>
 
                 <TextView
                     android:id="@+id/IncomesLabel"
@@ -386,9 +405,10 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.498"
+            app:layout_constraintVertical_bias="0.615"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
+            android:layout_marginEnd="8dp"
+            >
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -401,7 +421,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="BYN"
-                    android:layout_marginRight="7dp"
+                    android:layout_marginRight="8dp"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginTop="8dp"
@@ -415,12 +435,13 @@
                     app:layout_constraintHorizontal_bias="0.793"/>
 
 
+
                 <TextView
                     android:id="@+id/currentBalanceAmount"
                     android:layout_width="59dp"
                     android:layout_height="16dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginRight="62dp"
+                    android:layout_marginRight="8dp"
                     android:layout_marginTop="8dp"
                     android:text="365"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -449,27 +470,28 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginRight="8dp"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"/>
+                    app:layout_constraintHorizontal_bias="0.0"
+                    android:layout_marginEnd="8dp"/>
 
                 <Button
                     android:id="@+id/viewBalanceBtn"
-                    android:layout_width="39dp"
-                    android:layout_height="44dp"
+                    android:layout_width="43dp"
+                    android:layout_height="42dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:background="@android:drawable/ic_input_add"
-                    android:text="+"
+                    android:background="@drawable/ic_balance"
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    />
+                    tools:layout_editor_absoluteX="307dp"
+                    app:layout_constraintVertical_bias="0.5"/>
 
                 <TextView
                     android:id="@+id/BalanceLabel"
