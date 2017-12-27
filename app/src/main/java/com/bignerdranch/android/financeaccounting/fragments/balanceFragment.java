@@ -1,4 +1,4 @@
-package com.bignerdranch.android.financeaccounting.controller;
+package com.bignerdranch.android.financeaccounting.fragments;
 
 
 import android.os.Bundle;

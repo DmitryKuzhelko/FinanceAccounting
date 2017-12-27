@@ -8,7 +8,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bignerdranch.android.financeaccounting.R;
-import com.bignerdranch.android.financeaccounting.controller.fragment.CategorySelectionFragment;
+import com.bignerdranch.android.financeaccounting.fragments.CategorySelectionFragment;
 import com.bignerdranch.android.financeaccounting.model.Category;
 
 import java.util.List;
