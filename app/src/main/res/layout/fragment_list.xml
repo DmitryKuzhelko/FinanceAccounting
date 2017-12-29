@@ -24,7 +24,7 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/costs_card_view"
-        android:layout_width="380dp"
+        android:layout_width="0dp"
         android:layout_height="31dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -39,7 +39,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.326"
+        app:layout_constraintVertical_bias="0.159"
         >
 
         <android.support.constraint.ConstraintLayout
@@ -93,26 +93,28 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rwCategoriesList"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:paddingBottom="6dp"
-        android:paddingEnd="5dp"
-        android:paddingLeft="6dp"
-        android:paddingRight="5dp"
-        android:paddingStart="6dp"
-        android:paddingTop="6dp"
+        android:layout_marginTop="140dp"
+        android:padding="2dp"
+        android:paddingBottom="2dp"
+        android:paddingEnd="2dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:paddingStart="2dp"
+        android:paddingTop="2dp"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.547"
-        />
+        app:layout_constraintVertical_bias="0.319"/>
 
     <ImageButton
         android:id="@+id/actionLeftBtn"
@@ -131,7 +133,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.242"/>
+        app:layout_constraintVertical_bias="0.098"/>
 
     <ImageButton
         android:id="@+id/actionRightBtn"
@@ -146,11 +148,11 @@
         android:background="@drawable/ic_action_right"
         android:text="rightBtn"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.976"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.242"/>
+        app:layout_constraintVertical_bias="0.098"/>
 
     <TextView
         android:id="@+id/tvTimeRange"
@@ -170,7 +172,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.242"/>
+        app:layout_constraintVertical_bias="0.098"/>
 
 </android.support.constraint.ConstraintLayout>
 
