@@ -53,10 +53,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
         return mItems.size();
     }
 
-    public void setItems(List<Item> items) {
-        mItems = items;
-    }
-
     public class ItemListHolder extends RecyclerView.ViewHolder {
         private Item mItem;
         private TextView mItemDate;
@@ -72,7 +68,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
             mItemComment.setText(mItem.getComment());
         }
 
-        //need to transit findViewById to ButterKnife
         public ItemListHolder(View itemView) {
             super(itemView);
             mItemDate = (TextView) itemView.findViewById(ItemDate);

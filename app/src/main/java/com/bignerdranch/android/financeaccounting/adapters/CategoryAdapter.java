@@ -56,8 +56,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         return mCategories.size();
     }
 
-    public void addCategory(int position) {
-        notifyItemInserted(position);
+    public void addCategory() {
+        notifyItemInserted(getItemCount() - 1);
     }
 
     public void deleteCategory(int position) {
