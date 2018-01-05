@@ -26,32 +26,27 @@
         android:id="@+id/costs_card_view"
         android:layout_width="0dp"
         android:layout_height="31dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:elevation="10dp"
         android:fadingEdgeLength="5dp"
-        app:cardCornerRadius="5dp"
+        app:cardBackgroundColor="#FFF9F9F6"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.159"
-        >
+        app:layout_constraintVertical_bias="0.159">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context="com.dmitry.financeaccounting.MainActivity">
+            android:layout_height="match_parent">
 
 
             <TextView
                 android:id="@+id/totalAmount"
-                android:layout_width="69dp"
-                android:layout_height="22dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
@@ -62,44 +57,42 @@
                 android:textAlignment="textEnd"
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                android:textColor="@color/cardview_dark_background"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.95"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintVertical_bias="0.571"/>
 
             <TextView
                 android:id="@+id/totalAmountLabel"
-                android:layout_width="126dp"
-                android:layout_height="19dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif"
                 android:text="Итого, BYN:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/cardview_dark_background"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent"/>
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rwCategoriesList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="140dp"
         android:padding="2dp"
         android:paddingBottom="2dp"
@@ -114,7 +107,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.319"/>
+        app:layout_constraintVertical_bias="0.0"/>
 
     <ImageButton
         android:id="@+id/actionLeftBtn"
@@ -156,17 +149,20 @@
 
     <TextView
         android:id="@+id/tvTimeRange"
-        android:layout_width="269dp"
-        android:layout_height="31dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif"
         android:text="time Range"
         android:textAlignment="center"
+        android:textColor="@android:color/background_dark"
         android:textSize="18sp"
+        android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintLeft_toLeftOf="parent"

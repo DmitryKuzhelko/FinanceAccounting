@@ -9,15 +9,16 @@
 
     <TextView
         android:id="@+id/catTitle"
-        android:layout_width="272dp"
-        android:layout_height="23dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="69dp"
         android:layout_marginTop="8dp"
         android:text="Category"
-        android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -27,8 +28,8 @@
 
     <TextView
         android:id="@+id/catTotalAmount"
-        android:layout_width="63dp"
-        android:layout_height="23dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -39,12 +40,30 @@
         android:textAlignment="textEnd"
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textColor="@android:color/holo_blue_bright"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.272"/>
+        app:layout_constraintVertical_bias="0.375"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_action_right"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintVertical_bias="0.571"/>
 
 </android.support.constraint.ConstraintLayout>

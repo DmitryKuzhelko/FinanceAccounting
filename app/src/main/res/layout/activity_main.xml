@@ -24,48 +24,85 @@
 
         <Button
             android:id="@+id/allIncomesBtn"
-            android:layout_width="109dp"
-            android:layout_height="77dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:background="@android:drawable/alert_light_frame"
-            android:text="Все доходы"
+            android:background="@mipmap/ic_all_incomes_btn"
+            android:elevation="0dp"
+            android:text=""
+            android:textAllCaps="false"
             android:textSize="11sp"
+            android:textStyle="bold"
+            android:typeface="normal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.969"
+            app:layout_constraintHorizontal_bias="0.852"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.759"/>
+            app:layout_constraintVertical_bias="0.8"/>
 
         <Button
             android:id="@+id/allCostsBtn"
-            android:layout_width="113dp"
-            android:layout_height="76dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:background="@android:drawable/alert_light_frame"
-            android:text="Все расходы"
+            android:background="@mipmap/ic_all_costs_btn"
             android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.098"
+            app:layout_constraintHorizontal_bias="0.097"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.757"/>
+            app:layout_constraintVertical_bias="0.8"/>
+
+        <TextView
+            android:id="@+id/allIncomesBtnText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Все доходы"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.84"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.85"/>
+
+        <TextView
+            android:id="@+id/allCostsBtnText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Все расходы"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.852"/>
 
         <android.support.v7.widget.CardView
             android:id="@+id/costs_card_view"
-            android:layout_width="match_parent"
-            android:layout_height="117dp"
+            android:layout_width="0dp"
+            android:layout_height="118dp"
             android:layout_marginBottom="1dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
@@ -74,11 +111,12 @@
             android:layout_marginTop="2dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="3dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.112">
+            app:layout_constraintVertical_bias="0.13">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -86,19 +124,33 @@
                 tools:context="com.dmitry.financeaccounting.MainActivity">
 
 
+                <View
+                    android:layout_width="270dp"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="#dadada"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.71000004"/>
+
                 <TextView
                     android:id="@+id/CostsCurrency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/tvCurrencyLabelStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:text="BYN"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0.825"
+                    app:layout_constraintHorizontal_bias="0.78"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -107,8 +159,7 @@
 
                 <TextView
                     android:id="@+id/monthCostsAmount"
-                    android:layout_width="59dp"
-                    android:layout_height="14dp"
+                    style="@style/tvAmountStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
@@ -116,18 +167,16 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="31"
-                    android:textAlignment="textEnd"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0.747"
+                    app:layout_constraintHorizontal_bias="0.73"
                     app:layout_constraintLeft_toRightOf="@+id/monthCosts"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.909"/>
+                    app:layout_constraintVertical_bias="0.903"/>
 
                 <TextView
                     android:id="@+id/weekCostsAmount"
-                    android:layout_width="59dp"
-                    android:layout_height="14dp"
+                    style="@style/tvAmountStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
@@ -135,18 +184,16 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="7"
-                    android:textAlignment="textEnd"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0.735"
+                    app:layout_constraintHorizontal_bias="0.726"
                     app:layout_constraintLeft_toRightOf="@+id/weekCosts"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.579"/>
+                    app:layout_constraintVertical_bias="0.59000003"/>
 
                 <TextView
                     android:id="@+id/dayCostsAmount"
-                    android:layout_width="58dp"
-                    android:layout_height="26dp"
+                    style="@style/tvAmountStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
@@ -154,25 +201,17 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:lineSpacingExtra="8sp"
-                    android:shadowColor="@color/cardview_dark_background"
                     android:text="1"
-                    android:textAlignment="textEnd"
-                    android:textColor="@android:color/holo_blue_bright"
-                    android:textColorHighlight="@color/colorPrimary"
-                    android:textColorLink="@android:color/holo_blue_bright"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0.732"
+                    app:layout_constraintHorizontal_bias="0.721"
                     app:layout_constraintLeft_toRightOf="@+id/todayCosts"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.25"/>
+                    app:layout_constraintVertical_bias="0.265"/>
 
                 <TextView
                     android:id="@+id/monthCosts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/tvCategoriesLabelStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
@@ -189,8 +228,7 @@
 
                 <TextView
                     android:id="@+id/weekCosts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/tvCategoriesLabelStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
@@ -207,8 +245,8 @@
 
                 <Button
                     android:id="@+id/addCostsBtn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
@@ -216,18 +254,20 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/ic_add_costs"
+                    android:elevation="2dp"
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    />
+                    app:layout_constraintVertical_bias="0.509"
+                    tools:layout_editor_absoluteX="271dp"
+                    tools:layout_editor_absoluteY="32dp"/>
 
                 <TextView
                     android:id="@+id/todayCosts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/tvCategoriesLabelStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
@@ -242,17 +282,33 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.258"/>
 
+                <View
+                    android:id="@+id/dividingLine"
+                    android:layout_width="270dp"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="#dadada"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.44"/>
+
                 <TextView
                     android:id="@+id/CostsLabel"
-                    android:layout_width="60dp"
-                    android:layout_height="17dp"
+                    style="@style/tvLabelStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:text="Расходы"
+                    android:textColor="#f5a32f"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -264,8 +320,8 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/incomes_card_view"
-            android:layout_width="match_parent"
-            android:layout_height="81dp"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
             android:layout_marginBottom="1dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
@@ -279,7 +335,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.357">
+            app:layout_constraintVertical_bias="0.37">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -289,18 +345,17 @@
 
                 <TextView
                     android:id="@+id/IncomesCurrency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/tvCurrencyLabelStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:text="BYN"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0.793"
-                    app:layout_constraintLeft_toRightOf="@+id/IncomesLabel"
+                    app:layout_constraintHorizontal_bias="0.78"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"/>
@@ -308,8 +363,7 @@
 
                 <TextView
                     android:id="@+id/monthIncomesAmount"
-                    android:layout_width="59dp"
-                    android:layout_height="16dp"
+                    style="@style/tvAmountStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
@@ -317,18 +371,16 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="31"
-                    android:textAlignment="textEnd"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0.762"
+                    app:layout_constraintHorizontal_bias="0.73"
                     app:layout_constraintLeft_toRightOf="@+id/monthIncomes"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.789"/>
+                    app:layout_constraintVertical_bias="0.75"/>
 
                 <TextView
                     android:id="@+id/monthIncomes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/tvCategoriesLabelStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
@@ -337,12 +389,15 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.783"/>
+                    app:layout_constraintVertical_bias="0.75"
+                    android:layout_marginRight="8dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"/>
 
                 <Button
                     android:id="@+id/addIncomesBtn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
@@ -350,25 +405,25 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/ic_add_incomes"
+                    android:elevation="2dp"
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
                     android:id="@+id/IncomesLabel"
-                    android:layout_width="60dp"
-                    android:layout_height="17dp"
+                    style="@style/tvLabelStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:text="Доходы"
+                    android:textColor="#76b53f"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -380,8 +435,8 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/balance_card_view"
-            android:layout_width="match_parent"
-            android:layout_height="76dp"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
             android:layout_marginBottom="1dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
@@ -394,7 +449,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.53">
+            app:layout_constraintVertical_bias="0.52">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -404,17 +459,16 @@
 
                 <TextView
                     android:id="@+id/AllBalanceCurrency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/tvCurrencyLabelStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:text="BYN"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0.793"
+                    app:layout_constraintHorizontal_bias="0.73"
                     app:layout_constraintLeft_toRightOf="@+id/BalanceLabel"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -423,8 +477,7 @@
 
                 <TextView
                     android:id="@+id/currentBalanceAmount"
-                    android:layout_width="59dp"
-                    android:layout_height="16dp"
+                    style="@style/tvAmountStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
@@ -432,18 +485,16 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="365"
-                    android:textAlignment="textEnd"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0.736"
+                    app:layout_constraintHorizontal_bias="0.684"
                     app:layout_constraintLeft_toRightOf="@+id/AllBalance"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.789"/>
+                    app:layout_constraintVertical_bias="0.75"/>
 
                 <TextView
                     android:id="@+id/AllBalance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/tvCategoriesLabelStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
@@ -456,12 +507,12 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.783"/>
+                    app:layout_constraintVertical_bias="0.75"/>
 
                 <Button
                     android:id="@+id/BalanceBtn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
@@ -469,31 +520,32 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/ic_balance"
+                    android:elevation="2dp"
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
                     android:id="@+id/BalanceLabel"
-                    android:layout_width="60dp"
-                    android:layout_height="17dp"
+                    style="@style/tvLabelStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:text="Баланс"
+                    android:textColor="#48c3f4"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"/>
+
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
 
